@@ -7,6 +7,7 @@ import World from "./World";
 import Resources from "./Utils/Resources";
 import sources from "./sources";
 import Debug from "./Utils/Debug";
+import Dbclick from "./Utils/Dbclick";
 
 let instance = null;
 export default class Experience {
@@ -19,6 +20,7 @@ export default class Experience {
 
     this.debug = new Debug();
     this.sizes = new Sizes();
+    this.dbclick = new Dbclick();
     this.time = new Time();
     this.scene = new THREE.Scene();
     this.resources = new Resources(sources);
@@ -28,6 +30,7 @@ export default class Experience {
 
     this.sizes.on("resize", this.resize.bind(this));
     this.time.on("tick", this.update.bind(this));
+    window.addEventListener("dblclick", this.dbclick.toggleFullScreen.bind(this, this.canvas));
   }
 
   resize() {
@@ -44,6 +47,7 @@ export default class Experience {
   destroy() {
     this.sizes.off("resize");
     this.time.off("tick");
+    window.removeEventListener("dblclick", this.dbclick.toggleFullScreen.bind(this, this.canvas));
 
     // Traverse the whole scene
     this.scene.traverse((child) => {

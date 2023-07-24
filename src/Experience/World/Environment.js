@@ -27,34 +27,14 @@ export default class Enviroment {
 
     //Debug
     if (this.debug.active) {
-      this.debugFolder
-        .add(this.sunLight, "intensity")
-        .name("太阳光强")
-        .min(0)
-        .max(10)
-        .step(0.001);
+      this.debugFolder.add(this.sunLight, "intensity").name("太阳光强").min(0).max(10).step(0.001);
+
+      this.debugFolder.add(this.sunLight.position, "x").name("太阳位置 x").min(-5).max(5).step(0.001);
+
+      this.debugFolder.add(this.sunLight.position, "y").name("太阳位置 y").min(-1).max(5).step(0.001);
+
+      this.debugFolder.add(this.sunLight.position, "z").name("太阳位置 z").min(-5).max(5).step(0.001);
     }
-
-    this.debugFolder
-      .add(this.sunLight.position, "x")
-      .name("太阳位置 x")
-      .min(-5)
-      .max(5)
-      .step(0.001);
-
-    this.debugFolder
-      .add(this.sunLight.position, "y")
-      .name("太阳位置 y")
-      .min(-1)
-      .max(5)
-      .step(0.001);
-
-    this.debugFolder
-      .add(this.sunLight.position, "z")
-      .name("太阳位置 z")
-      .min(-5)
-      .max(5)
-      .step(0.001);
   }
 
   setEnvironmentMap() {
@@ -67,10 +47,7 @@ export default class Enviroment {
 
     this.environmentMap.updateMaterial = () => {
       this.scene.traverse((child) => {
-        if (
-          child instanceof THREE.Mesh &&
-          child.material instanceof THREE.MeshStandardMaterial
-        ) {
+        if (child instanceof THREE.Mesh && child.material instanceof THREE.MeshStandardMaterial) {
           child.material.envMap = this.environmentMap.texture;
           child.material.envMapIntensity = this.environmentMap.intensity;
           child.material.needsUpdate = true;
